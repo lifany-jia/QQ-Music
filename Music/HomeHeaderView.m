@@ -20,7 +20,7 @@
 - (void)setupUI {
     UISearchBar *search = [[UISearchBar alloc] init];
     search.searchBarStyle = UISearchBarStyleMinimal;
-    search.placeholder = @"请搜索";
+    search.placeholder = @"输入搜索内容";
     [self addSubview:search];
     [search mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
@@ -56,10 +56,7 @@
     
     NSSymbolEffectOptionsRepeatBehavior *repeat = [NSSymbolEffectOptionsRepeatBehavior behaviorPeriodic];
     NSSymbolEffectOptions *option = [NSSymbolEffectOptions optionsWithRepeatBehavior:repeat];
-    [moneyV addSymbolEffect:[NSSymbolBounceEffect effect]
-                    options:option
-                   animated:YES
-                 completion:nil];
+    [moneyV addSymbolEffect:[NSSymbolBounceEffect effect] options:option animated:YES completion:nil];
     
 }
 @end

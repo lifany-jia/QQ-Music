@@ -46,6 +46,7 @@
     
     self.title = [[UILabel alloc] init];
     self.title.font = [UIFont systemFontOfSize:13];
+    self.title.numberOfLines = 2;
     self.title.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentView addSubview:self.title];
     [self.title mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -58,8 +59,12 @@
 - (void)updateWithModel:(NSArray<NSString *> *)model {
     UIImage *ima = [UIImage imageNamed:model[0]];
     self.image.image = ima;
-    self.title.text = model[0];
-    self.music.text = model[1];
+    if (model.count == 2) {
+        self.title.text = model[0];
+        self.music.text = model[1];
+    } else if (model.count == 1) {
+        self.title.text = model[0];
+    }
     
     CGFloat radio = ima.size.width / ima.size.height;
     CGFloat width = 125 * radio;

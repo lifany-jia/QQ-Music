@@ -8,12 +8,16 @@
 #import "HomeVC.h"
 #import "FirstSectionHeaderView.h"
 #import "FirstSectionCell.h"
+#import "SecondSectionCell.h"
 #import "HomeModel.h"
 #import "HomeHeaderView.h"
 #import <Masonry/Masonry.h>
 @interface HomeVC () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray<NSArray<NSString *> *> *firstSectionModel;
+@property (nonatomic, strong) NSArray<NSArray<NSString *> *> *secondSectionModel;
+@property (nonatomic, strong) NSArray<NSArray<NSString *> *> *thirdSectionModel;
+@property (nonatomic, strong) NSArray<NSArray<NSString *> *> *fourthSectionModel;
 @end
 
 @implementation HomeVC
@@ -23,20 +27,36 @@
     self.navigationItem.title = @"首页";
     
     self.firstSectionModel = [HomeModel defaultFirstSectionModel];
+    self.secondSectionModel = [HomeModel defaultSecondSectionModel];
+    self.thirdSectionModel = [HomeModel defaultThirdSectionModel];
+    self.fourthSectionModel = [HomeModel defaultFourthSectionModel];
     
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    [self setupTableView];
+}
+#pragma mark - TableView
+- (void)setupTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor systemGray6Color];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.tableHeaderView = [[HomeHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 64)];
     // iOS15之后，UITableView默认会给section和header顶部加一段padding，设为0
     self.tableView.sectionHeaderTopPadding = 0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 80;
     [self.tableView registerClass:[FirstSectionCell class] forCellReuseIdentifier:@"firstSectionCell"];
+    [self.tableView registerClass:[SecondSectionCell class] forCellReuseIdentifier:@"secondSectionCell"];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
+    // UITableView继承自UIScrollView，所以它自带键盘收起能力
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+    // 防止点击cell的时候，手势可能会拦截cell的点击事件
+    tap.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:tap];
 }
-#pragma mark - TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
 }
@@ -67,11 +87,25 @@
         FirstSectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"firstSectionCell" forIndexPath:indexPath];
         [cell updateWithModel:self.firstSectionModel];
         return cell;
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
+        SecondSectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"secondSectionCell" forIndexPath:indexPath];
+        [cell updateWithModel:self.secondSectionModel];
+        return cell;
+    } else if (indexPath.section == 2 && indexPath.row == 0) {
+        FirstSectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"firstSectionCell" forIndexPath:indexPath];
+        [cell updateWithModel:self.thirdSectionModel];
+        return cell;
+    } else if (indexPath.section == 3 && indexPath.row == 0) {
+        SecondSectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"secondSectionCell" forIndexPath:indexPath];
+        [cell updateWithModel:self.fourthSectionModel];
+        return cell;
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     return cell;
 }
-
+- (void)tapAction {
+    [self.view endEditing:YES];
+}
 #pragma mark - SectionHeader
 - (UIView *)secondSectionHeader:(NSString *) name {
     UIView *view = [[UIView alloc] init];
@@ -86,9 +120,9 @@
     
     UIImageSymbolConfiguration *config = [UIImageSymbolConfiguration configurationWithPaletteColors:@[
         [UIColor blackColor],
-        [UIColor systemGray4Color]
+        [UIColor whiteColor]
     ]];
-    UIImage *ima = [[UIImage systemImageNamed:@"play.circle"] imageWithConfiguration:config];
+    UIImage *ima = [[UIImage systemImageNamed:@"play.circle.fill"] imageWithConfiguration:config];
     UIImageView *imaV = [[UIImageView alloc] initWithImage:ima];
     imaV.contentMode = UIViewContentModeScaleAspectFit;
     [view addSubview:imaV];
@@ -120,6 +154,7 @@
     }];
     return view;
 }
+
 /*
 #pragma mark - Navigation
 
