@@ -25,8 +25,9 @@
     
     PersonVC *person = [[PersonVC alloc] init];
     person.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的" image:[UIImage systemImageNamed:@"person"] selectedImage:[UIImage systemImageNamed:@"person.fill"]];
+    UINavigationController *personNav = [[UINavigationController alloc] initWithRootViewController:person];
     
-    tab.viewControllers = @[homeNav, person, person];
+    tab.viewControllers = @[homeNav, personNav];
     tab.tabBarMinimizeBehavior = UITabBarMinimizeBehaviorOnScrollDown;
     tab.tabBar.tintColor = [UIColor systemGreenColor];
     tab.tabBar.unselectedItemTintColor = [UIColor systemGreenColor];

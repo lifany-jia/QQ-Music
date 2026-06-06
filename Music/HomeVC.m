@@ -119,8 +119,8 @@
     }];
     
     UIImageSymbolConfiguration *config = [UIImageSymbolConfiguration configurationWithPaletteColors:@[
-        [UIColor blackColor],
-        [UIColor whiteColor]
+        [UIColor labelColor],
+        [UIColor systemBackgroundColor]
     ]];
     UIImage *ima = [[UIImage systemImageNamed:@"play.circle.fill"] imageWithConfiguration:config];
     UIImageView *imaV = [[UIImageView alloc] initWithImage:ima];

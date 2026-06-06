@@ -19,16 +19,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="dqf-tP-as0">
-                                <rect key="frame" x="0.0" y="86" width="393" height="680"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="dqf-tP-as0">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dqf-tP-as0" secondAttribute="trailing" id="H7l-SH-wyY"/>
-                            <constraint firstItem="9Ar-u9-3e4" firstAttribute="top" secondItem="dqf-tP-as0" secondAttribute="bottom" id="Pd3-f5-ylS"/>
+                            <constraint firstItem="9Ar-u9-3e4" firstAttribute="top" secondItem="dqf-tP-as0" secondAttribute="bottom" constant="-66" id="Pd3-f5-ylS"/>
                             <constraint firstItem="dqf-tP-as0" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ctf-jM-4Js"/>
-                            <constraint firstItem="dqf-tP-as0" firstAttribute="top" secondItem="6sH-C7-Vde" secondAttribute="bottom" id="sGo-ay-fOG"/>
+                            <constraint firstItem="dqf-tP-as0" firstAttribute="top" secondItem="6sH-C7-Vde" secondAttribute="bottom" constant="-118" id="sGo-ay-fOG"/>
                         </constraints>
                     </view>
                 </viewController>

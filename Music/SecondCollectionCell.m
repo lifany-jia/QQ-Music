@@ -68,7 +68,7 @@
     }];
     
     UIView *back = [[UIView alloc] init];
-    back.backgroundColor = [UIColor whiteColor];
+    back.backgroundColor = [UIColor systemBackgroundColor];
     back.layer.cornerRadius = 5;
     back.clipsToBounds = YES;
     [self.contentView addSubview:back];
@@ -78,8 +78,8 @@
     }];
     self.label = [[UILabel alloc] init];
     self.label.font = [UIFont systemFontOfSize:9];
+    self.label.backgroundColor = [UIColor clearColor];
     self.label.textColor = [UIColor secondaryLabelColor];
-    self.label.backgroundColor = [UIColor whiteColor];
     self.label.layer.cornerRadius = 4;
     self.label.layer.masksToBounds = YES;
     [back addSubview:self.label];
