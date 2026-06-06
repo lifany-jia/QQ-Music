@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<NSArray<NSString *> *> *)defaultSecondSectionModel;
 + (NSArray<NSArray<NSString *> *> *)defaultThirdSectionModel;
 + (NSArray<NSArray<NSString *> *> *)defaultFourthSectionModel;
++ (NSArray<NSArray<NSString *> *> *)defaultSelfCreateModel;
++ (NSArray<NSArray<NSString *> *> *)defaultcollectionModel;
 @end
 
 NS_ASSUME_NONNULL_END

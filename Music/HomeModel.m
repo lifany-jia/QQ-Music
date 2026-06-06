@@ -62,4 +62,23 @@
     ];
     return model;
 }
++ (NSArray<NSArray<NSString *> *> *)defaultSelfCreateModel {
+    NSArray *model = [NSArray array];
+    model = @[
+        @[@"JJ", @"29首"],
+        @[@"En", @"311首"],
+        @[@"Ne", @"190首"],
+        @[@"新建导入外部歌单", @"支持图片、文字、QQ号等多种导入方式"]
+    ];
+    return model;
+}
++ (NSArray<NSArray<NSString *> *> *)defaultcollectionModel {
+    NSArray *model = [NSArray array];
+    model = @[
+        @[@"抖音热门｜让生活变得有趣", @"29首"],
+        @[@"欧美流行向｜爱于前奏死于高潮", @"1344首"],
+        @[@"QQ飞车｜快闪开！我要上车神", @"255首"],
+    ];
+    return model;
+}
 @end
