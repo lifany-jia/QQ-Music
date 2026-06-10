@@ -81,4 +81,32 @@
     ];
     return model;
 }
++ (NSArray<NSArray<NSString *> *> *)defaultMenuModel {
+    NSArray *model = [NSArray array];
+    model = @[
+        @[@"设置", @"个人资料"],
+        @[@"定时关闭", @"碰一碰传歌", @"导入外部歌曲", @"添加小组件", @"清理占用内存"],
+        @[@"深色模式", @"未成年人模式"],
+        @[@"QQ音乐VIP兑换中心"],
+        @[@"帮助与反馈", @"安全中心", @"第三方信息清理共享清单", @"已收集个人信息清单", @"隐私政策摘要", @"注销账号"],
+        @[@"退出登录"]
+    ];
+    return model;
+}
++ (NSMutableArray<NSMutableArray<NSNumber *> *> *)defaultIsOnsModel {
+    NSArray<NSArray<NSString *> *> *model = [HomeModel defaultMenuModel];
+    static NSMutableArray *isOns = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        isOns = [NSMutableArray array];
+        for (int i = 0; i < model.count; i++) {
+            NSMutableArray *temp = [NSMutableArray array];
+            for (int j = 0; j < model[i].count; j++) {
+                [temp addObject:@(NO)];
+            }
+            [isOns addObject:temp];
+        }
+    });
+    return isOns;
+}
 @end
