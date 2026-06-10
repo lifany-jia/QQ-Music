@@ -6,6 +6,7 @@
 //
 
 #import "HomeVC.h"
+#import "DrawerVC.h"
 #import "FirstSectionHeaderView.h"
 #import "FirstSectionCell.h"
 #import "SecondSectionCell.h"
@@ -25,6 +26,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"首页";
+    
+    UIImage *image = [UIImage systemImageNamed:@"line.3.horizontal"];
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openDrawer)];
+    self.navigationItem.leftBarButtonItem = menuButton;
     
     self.firstSectionModel = [HomeModel defaultFirstSectionModel];
     self.secondSectionModel = [HomeModel defaultSecondSectionModel];
@@ -154,7 +159,13 @@
     }];
     return view;
 }
-
+#pragma mark - openDrawer
+- (void)openDrawer {
+    DrawerVC *vc = [[DrawerVC alloc] init];
+    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    // 不要系统动画，在视图里自己做抽屉动画
+    [self presentViewController:vc animated:NO completion:nil];
+}
 /*
 #pragma mark - Navigation
 

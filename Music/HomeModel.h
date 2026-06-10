@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<NSArray<NSString *> *> *)defaultcollectionModel;
 + (NSArray<NSArray<NSString *> *> *)defaultMenuModel;
 + (NSMutableArray<NSMutableArray<NSNumber *> *> *)defaultIsOnsModel;
++ (NSArray<NSString *> *)defaultDrawerModel;
 @end
 
 NS_ASSUME_NONNULL_END

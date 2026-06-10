@@ -1,15 +1,15 @@
 //
-//  DrawerView.h
+//  DrawerVC.h
 //  Music
 //
-//  Created by lifany on 2026/6/9.
+//  Created by lifany on 2026/6/10.
 //
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DrawerView : UIView
+@interface DrawerVC : UIViewController
 
 @end
 

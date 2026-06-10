@@ -6,7 +6,6 @@
 //
 
 #import "PersonVC.h"
-#import "DrawerView.h"
 #import "HomeModel.h"
 #import "MenuVC.h"
 #import "PersonPlayListsCell.h"
@@ -24,9 +23,6 @@
 @property (nonatomic, strong) NSArray<NSArray<NSString *> *> *model;
 @property (nonatomic, strong) NSArray<NSArray<NSString *> *> *collectionModel;
 @property (nonatomic, strong) NSArray<NSArray<NSString *> *> *selfCreateModel;
-
-@property (nonatomic, strong) UIView *maskView;
-@property (nonatomic, strong) DrawerView *drawer;
 @end
 
 @implementation PersonVC
@@ -39,8 +35,6 @@
     self.collectionModel = [HomeModel defaultcollectionModel];
     self.model = self.selfCreateModel;
     
-//    UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"菜单" style:UIBarButtonItemStylePlain target:self action:@selector(openDrawer)];
-//    self.navigationItem.leftBarButtonItem = menu;
     UIImage *image = [UIImage systemImageNamed:@"line.3.horizontal"];
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(pushMenu)];
     self.navigationItem.rightBarButtonItem = menuButton;
@@ -50,7 +44,6 @@
     [self setupFavorite];
     [self setupTab];
     [self setupSegView];
-    [self setupDrawer];
 }
 #pragma mark - setupBack
 
@@ -534,51 +527,6 @@
     return cell;
 }
 
-#pragma mark - setupDrawer
-- (void)setupDrawer {
-    self.maskView = [[UIView alloc] init];
-    self.maskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
-    self.maskView.alpha = 0;
-    self.maskView.hidden = YES;
-    [self.view addSubview:self.maskView];
-    [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
-    }];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeDrawer)];
-    [self.maskView addGestureRecognizer:tap];
-    
-    self.drawer = [[DrawerView alloc] init];
-    [self.view addSubview:self.drawer];
-    [self.drawer mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(self.view);
-            make.width.mas_equalTo(280);
-            make.left.equalTo(self.view).offset(-280);
-    }];
-}
-- (void)openDrawer {
-    self.maskView.hidden = NO;
-    [self.drawer mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view);
-    }];
-    
-    [UIView animateWithDuration:0.25 animations:^{
-            self.maskView.alpha = 1;
-            [self.view layoutIfNeeded];
-    }];
-    
-}
-- (void)closeDrawer {
-    [self.drawer mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(-280);
-    }];
-    [UIView animateWithDuration:0.25 animations:^{
-        self.maskView.alpha = 0;
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        self.maskView.hidden = YES;
-    }];
-    
-}
 /*
 #pragma mark - Navigation
 

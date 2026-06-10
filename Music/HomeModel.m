@@ -109,4 +109,11 @@
     });
     return isOns;
 }
++ (NSArray<NSString *> *)defaultDrawerModel {
+    NSArray *model = [NSArray array];
+    model = @[
+        @"设置", @"个人资料", @"定时关闭", @"碰一碰传歌", @"导入外部歌曲", @"QQ音乐VIP兑换中心", @"帮助与反馈",@"安全中心", @"第三方信息清理共享清单", @"已收集个人信息清单", @"隐私政策摘要"
+    ];
+    return model;
+}
 @end
