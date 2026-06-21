@@ -67,4 +67,5 @@
     self.model = model;
     [self.collection reloadData];
 }
+
 @end

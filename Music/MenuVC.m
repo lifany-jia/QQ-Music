@@ -7,6 +7,7 @@
 
 #import "MenuVC.h"
 #import "HomeModel.h"
+#import "MyTabBarVC.h"
 #import "MenuCell.h"
 @interface MenuVC () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -79,10 +80,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
+    MyTabBarVC *tabBar = [MyTabBarVC sharedTabBarVC];
+    [tabBar setMiniPlayerVisible:NO];
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
+    MyTabBarVC *tabBar = [MyTabBarVC sharedTabBarVC];
+    [tabBar setMiniPlayerVisible:YES];
 }
 /*
 #pragma mark - Navigation

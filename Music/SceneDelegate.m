@@ -6,8 +6,7 @@
 //
 
 #import "SceneDelegate.h"
-#import "HomeVC.h"
-#import "PersonVC.h"
+#import "MyTabBarVC.h"
 @interface SceneDelegate ()
 
 @end
@@ -17,21 +16,7 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
-    UITabBarController *tab = [[UITabBarController alloc] init];
-    
-    HomeVC *home = [[HomeVC alloc] init];
-    home.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage systemImageNamed:@"house"] selectedImage:[UIImage systemImageNamed:@"house.fill"]];
-    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:home];
-    
-    PersonVC *person = [[PersonVC alloc] init];
-    person.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的" image:[UIImage systemImageNamed:@"person"] selectedImage:[UIImage systemImageNamed:@"person.fill"]];
-    UINavigationController *personNav = [[UINavigationController alloc] initWithRootViewController:person];
-    
-    tab.viewControllers = @[homeNav, personNav];
-    tab.tabBarMinimizeBehavior = UITabBarMinimizeBehaviorOnScrollDown;
-    tab.tabBar.tintColor = [UIColor systemGreenColor];
-    tab.tabBar.unselectedItemTintColor = [UIColor systemGreenColor];
-    
+    MyTabBarVC *tab = [[MyTabBarVC alloc] init];
     self.window.rootViewController = tab;
     [self.window makeKeyAndVisible];
 }

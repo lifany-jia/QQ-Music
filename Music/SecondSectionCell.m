@@ -7,11 +7,14 @@
 
 #import "SecondSectionCell.h"
 #import "SecondCollectionCell.h"
+#import <AVFoundation/AVFoundation.h>
+#import "MyTabBarVC.h"
 #import <Masonry/Masonry.h>
 @interface SecondSectionCell () <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) UICollectionView *collection;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) NSArray<NSArray<NSString *> *> *model;
+@property (nonatomic, strong) AVPlayer *player;
 @end
 @implementation SecondSectionCell
 
@@ -75,5 +78,22 @@
     CGFloat width = self.collection.bounds.size.width - self.layout.sectionInset.left - self.layout.sectionInset.right;
     self.layout.itemSize = CGSizeMake(width, 60);
 }
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    MyTabBarVC *tabBar = [MyTabBarVC sharedTabBarVC];
+    [tabBar updateWithAvatar:self.model[indexPath.item][0] authorName:self.model[indexPath.item][1] musicName:self.model[indexPath.item][0] visible:YES];
+//    [self playSong];
+}
+//- (void)playSong {
+//    NSString *songName = @"angel";
+//    
+//    NSURL *url = [[NSBundle mainBundle] URLForResource:songName withExtension:@"m4a"];
+//    
+//    if (!url) {
+//        NSLog(@"没有找到 %@.m4a", songName);
+//        return;
+//    }
+//    
+//    self.player = [AVPlayer playerWithURL:url];
+//    [self.player play];
+//}
 @end
