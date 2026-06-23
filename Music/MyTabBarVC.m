@@ -17,9 +17,8 @@
 @property (nonatomic, strong) UIButton *pausePlayer;
 @property (nonatomic, strong) UITabAccessory *accessory;
 
-@property (nonatomic, copy) NSString *authorNameModel;
-@property (nonatomic, copy) NSString *avatarModel;
-@property (nonatomic, copy) NSString *musicNameModel;
+@property (nonatomic, copy) NSArray<NSString *> *model;
+@property (nonatomic, assign) BOOL isPlayed;
 @end
 
 @implementation MyTabBarVC
@@ -28,6 +27,18 @@
     [super viewDidLoad];
     [self setTabBar];
     [self setMiniPlayer];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMusicChange:) name:kMusicPlayerDidChangeNotification object:nil];
+}
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)handleMusicChange:(NSNotification *) noti {
+    self.model = noti.userInfo[kMusicPlayerSongKey];
+    self.isPlayed = [noti.userInfo[kMusicPlayerIsPlayingKey] boolValue];
+    self.name.text = self.model[0];
+    UIImage *image = [UIImage imageNamed:self.model[0]];
+    self.avatar.image = image;
+    self.pausePlayer.selected = self.isPlayed;
 }
 - (void)setTabBar {
     HomeVC *home = [[HomeVC alloc] init];
@@ -100,25 +111,24 @@
     
     self.accessory = [[UITabAccessory alloc] initWithContentView:self.miniPlayer];
 }
-- (void)updateWithAvatar:(NSString *)avatar authorName:(NSString *)authorName musicName:(NSString *)musicName visible:(BOOL)visible {
-    self.authorNameModel = authorName;
-    self.avatarModel = avatar;
-    self.musicNameModel = musicName;
-    self.name.text = self.musicNameModel;
-    UIImage *image = [UIImage imageNamed:self.avatarModel];
+- (void)updateWithModel:(NSArray<NSString *> *)model isPlayed:(BOOL)isPlayed {
+    self.model = model;
+    self.name.text = self.model[0];
+    UIImage *image = [UIImage imageNamed:self.model[0]];
     self.avatar.image = image;
-    self.pausePlayer.selected = visible;
+    self.pausePlayer.selected = isPlayed;
+    self.isPlayed = isPlayed;
     [self setMiniPlayerVisible:YES];
 }
 - (void)setMiniPlayerVisible:(BOOL)visible {
     self.bottomAccessory = visible ? self.accessory : nil;
 }
 - (void)playAction:(UIButton *) but {
-    but.selected = !but.selected;
+    [[MusicPlay sharedManager] togglePlayPause];
 }
 - (void)miniAction {
     MusicVC *music = [[MusicVC alloc] init];
-    [music updateWithName:self.authorNameModel musicName:self.musicNameModel avatar:self.avatarModel isPlayed:self.pausePlayer.selected];
+    [music updateWithModel:self.model isPlayed:self.isPlayed];
     [self presentViewController:music animated:YES completion:nil];
 }
 + (instancetype)sharedTabBarVC {

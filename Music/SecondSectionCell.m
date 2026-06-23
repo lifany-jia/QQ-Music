@@ -80,20 +80,7 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     MyTabBarVC *tabBar = [MyTabBarVC sharedTabBarVC];
-    [tabBar updateWithAvatar:self.model[indexPath.item][0] authorName:self.model[indexPath.item][1] musicName:self.model[indexPath.item][0] visible:YES];
-//    [self playSong];
+    [tabBar updateWithModel:self.model[indexPath.item] isPlayed:YES];
+    [[MusicPlay sharedManager] setPlaylist:self.model startIndex:indexPath.item];
 }
-//- (void)playSong {
-//    NSString *songName = @"angel";
-//    
-//    NSURL *url = [[NSBundle mainBundle] URLForResource:songName withExtension:@"m4a"];
-//    
-//    if (!url) {
-//        NSLog(@"没有找到 %@.m4a", songName);
-//        return;
-//    }
-//    
-//    self.player = [AVPlayer playerWithURL:url];
-//    [self.player play];
-//}
 @end

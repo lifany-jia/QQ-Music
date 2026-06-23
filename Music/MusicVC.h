@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MusicVC : UIViewController
-- (void)updateWithName:(NSString *) authorName musicName:(NSString *)musicName avatar:(NSString *) avatar isPlayed:(BOOL) isPlayed;
+- (void)updateWithModel:(NSArray<NSString *> *) model isPlayed:(BOOL) isPlayed;
 @end
 
 NS_ASSUME_NONNULL_END

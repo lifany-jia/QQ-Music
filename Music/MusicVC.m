@@ -6,6 +6,7 @@
 //
 
 #import "MusicVC.h"
+#import "MusicPlay.h"
 #import <Masonry/Masonry.h>
 @interface MusicVC ()
 @property (nonatomic, strong) UIImageView *avatar;
@@ -16,10 +17,10 @@
 @property (nonatomic, strong) UIButton *next;
 @property (nonatomic, strong) UIButton *back;
 @property (nonatomic, strong) UISlider *slider;
-@property (nonatomic, copy) NSString *authorNameModel;
-@property (nonatomic, copy) NSString *musicNameModel;
-@property (nonatomic, copy) NSString *avatarModel;
-@property (nonatomic, assign) BOOL *isPlayed;
+@property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, copy) NSArray<NSString *> *model;
+@property (nonatomic, assign) BOOL isPlayed;
 @end
 
 @implementation MusicVC
@@ -29,6 +30,15 @@
     self.view.backgroundColor = [UIColor systemGray5Color];
     [self setupUI];
     [self refreshMusicInfo];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMusicChange:) name:kMusicPlayerDidChangeNotification object:nil];
+}
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)handleMusicChange:(NSNotification *)noti {
+    self.model = noti.userInfo[kMusicPlayerSongKey];
+    self.isPlayed = [noti.userInfo[kMusicPlayerIsPlayingKey] boolValue];
+    [self updateWithModel:self.model isPlayed:self.isPlayed];
 }
 - (void)setupUI {
     self.back = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -84,7 +94,7 @@
     UIImage *pause = [[UIImage systemImageNamed:@"pause.circle"] imageWithConfiguration:config];
     [self.pause setImage:play forState:UIControlStateNormal];
     [self.pause setImage:pause forState:UIControlStateSelected];
-    [self.pause addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.pause addTarget:self action:@selector(pauseAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.pause];
     [self.pause mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
@@ -168,6 +178,9 @@
             make.centerY.equalTo(self.pause);
             make.width.height.mas_equalTo(30);
     }];
+    UITapGestureRecognizer *prevTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(prevSong)];
+    [self.prev addGestureRecognizer:prevTap];
+    
     UIImage *nextIma = [[UIImage systemImageNamed:@"forward.end.fill"] imageWithConfiguration:configPlay];
     self.next = [UIButton buttonWithType:UIButtonTypeCustom];
     self.next.tintColor = [UIColor labelColor];
@@ -178,23 +191,33 @@
             make.centerY.equalTo(self.pause);
             make.width.height.mas_equalTo(30);
     }];
+    UITapGestureRecognizer *nextTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nextSong)];
+    [self.next addGestureRecognizer:nextTap];
 }
-- (void)playAction:(UIButton *) but {
+- (void)prevSong {
+    [[MusicPlay sharedManager] playPreVious];
+}
+- (void)nextSong {
+    [[MusicPlay sharedManager] playNext];
+}
+- (void)pauseAction:(UIButton *) but {
     but.selected = !but.selected;
+    if (but.selected) {
+        [[MusicPlay sharedManager] play];
+    } else {
+        [[MusicPlay sharedManager] pause];
+    }
 }
-- (void)updateWithName:(NSString *)authorName musicName:(NSString *)musicName avatar:(NSString *)avatar isPlayed:(BOOL)isPlayed{
-    NSLog(@"%@", authorName);
-    self.authorNameModel = authorName;
-    self.musicNameModel = musicName;
-    self.avatarModel = avatar;
+- (void)updateWithModel:(NSArray<NSString *> *)model isPlayed:(BOOL)isPlayed{
+    self.model = model;
     self.isPlayed = isPlayed;
     [self refreshMusicInfo];
 }
 
 - (void)refreshMusicInfo {
-    self.avatar.image = [UIImage imageNamed:self.avatarModel];
-    self.authorName.text = self.authorNameModel;
-    self.musicName.text = self.musicNameModel;
+    self.avatar.image = [UIImage imageNamed:self.model[0]];
+    self.authorName.text = self.model[1];
+    self.musicName.text = self.model[0];
     self.pause.selected = self.isPlayed;
 }
 - (void)backAction {

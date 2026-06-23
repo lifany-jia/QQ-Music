@@ -6,12 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MusicPlay.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MyTabBarVC : UITabBarController
 + (instancetype)sharedTabBarVC;
-- (void)updateWithAvatar:(NSString *)avatar authorName:(NSString *)authorName musicName:(NSString *)musicName visible:(BOOL)visible;
+- (void)updateWithModel:(NSArray<NSString *> *) model isPlayed:(BOOL)isPlayed;
 - (void)setMiniPlayerVisible:(BOOL) visible;
 @end
 
