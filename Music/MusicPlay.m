@@ -43,7 +43,6 @@ NSString *const kMusicPlayerIsPlayingKey = @"kMusicPlayerIsPlayingKey";
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
     }
     if (self.currentSong.count <= 3) {
-        NSLog(@"MusicPlay error: invalid song model: %@", self.currentSong);
         self.player = nil;
         self.isPlayed = NO;
         [self broadcastChange];
@@ -57,7 +56,6 @@ NSString *const kMusicPlayerIsPlayingKey = @"kMusicPlayerIsPlayingKey";
         url = [[NSBundle mainBundle] URLForResource:fileName withExtension:@"m4a"];
     }
     if (!url) {
-        NSLog(@"MusicPlay error: audio resource not found: %@", fileName);
         self.player = nil;
         self.isPlayed = NO;
         [self broadcastChange];

@@ -21,6 +21,7 @@
 
 @property (nonatomic, copy) NSArray<NSString *> *model;
 @property (nonatomic, assign) BOOL isPlayed;
+@property (nonatomic, assign) BOOL isDragging;
 @end
 
 @implementation MusicVC
@@ -30,10 +31,25 @@
     self.view.backgroundColor = [UIColor systemGray5Color];
     [self setupUI];
     [self refreshMusicInfo];
+    [self startProgressTimer];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMusicChange:) name:kMusicPlayerDidChangeNotification object:nil];
+}
+- (void)startProgressTimer {
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
+}
+- (void)updateTimer {
+    if (self.isDragging) return;
+    MusicPlay *music = [MusicPlay sharedManager];
+    CGFloat current = music.currentTime;
+    CGFloat total = music.duration;
+    if (total > 0 && !isnan(total)) {
+        self.slider.value = (current / total) * 100.0;
+    }
 }
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.timer invalidate];
+    self.timer = nil;
 }
 - (void)handleMusicChange:(NSNotification *)noti {
     self.model = noti.userInfo[kMusicPlayerSongKey];
@@ -115,6 +131,8 @@
             make.left.equalTo(self.view).offset(10);
             make.right.equalTo(self.view).offset(-10);
     }];
+    [self.slider addTarget:self action:@selector(sliderStart) forControlEvents:UIControlEventTouchDown];
+    [self.slider addTarget:self action:@selector(sliderStop) forControlEvents:UIControlEventTouchUpInside];
     
     UIImageSymbolConfiguration *configIma = [UIImageSymbolConfiguration configurationWithPointSize:22];
     UIImage *bell = [[UIImage systemImageNamed:@"bell"] imageWithConfiguration:configIma];
@@ -207,6 +225,18 @@
     } else {
         [[MusicPlay sharedManager] pause];
     }
+}
+- (void)sliderStart {
+    NSLog(@"start");
+    self.isDragging = YES;
+}
+
+- (void)sliderStop {
+    NSLog(@"stop");
+    CGFloat total = [MusicPlay sharedManager].duration;
+    CGFloat target = (self.slider.value / 100.0) * total;
+    [[MusicPlay sharedManager] seekToTime:target];
+    self.isDragging = NO;
 }
 - (void)updateWithModel:(NSArray<NSString *> *)model isPlayed:(BOOL)isPlayed{
     self.model = model;

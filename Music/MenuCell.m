@@ -92,7 +92,7 @@
     self.switchIcon.on = isOn;
 }
 - (void)switchIsSelected {
-    if (self.isChanged) {
+    if (self.isChanged && [self.label.text isEqualToString:@"深色模式"]) {
         self.isChanged(self.switchIcon.on);
     }
 }
